@@ -7,11 +7,12 @@
 
     mount.innerHTML = [
         '<div class="site-header">',
-        '    <h1>My Website</h1>',
+        
         '    <nav>',
+        '            Flashcards',
         '            <a href="index.html" class="header-button">Home</a>',
         '            <a href="accounts.html" class="header-button">Accounts</a>',
-        '            <a href="contact.html" class="header-button">Contact</a>',
+        '            <a href="your-sets.html" class="header-button">Your Sets</a>',
         '    </nav>',
         '</div>'
     ].join("\n");
