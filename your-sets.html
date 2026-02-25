@@ -10,4 +10,41 @@
     <div id="header"></div>
     <script src="header.js"></script>
     <h1>Your Sets.</h1>
+    <p id="status">Loading cards...</p>
+    <ul id="cardsList"></ul>
+
+    <script>
+        async function loadCards() {
+            const status = document.getElementById("status");
+            const cardsList = document.getElementById("cardsList");
+
+            try {
+                const response = await fetch("http://localhost:3000/api/cards");
+
+                if (!response.ok) {
+                    throw new Error("Request failed");
+                }
+
+                const cards = await response.json();
+
+                if (cards.length === 0) {
+                    status.textContent = "No cards found in the database.";
+                    return;
+                }
+
+                status.textContent = "Cards loaded from MySQL:";
+
+                cards.forEach((card) => {
+                    const item = document.createElement("li");
+                    item.textContent = `[${card.set_name}] Q: ${card.question} | A: ${card.answer}`;
+                    cardsList.appendChild(item);
+                });
+            } catch (error) {
+                status.textContent = "Could not load cards. Is the API running on port 3000?";
+            }
+        }
+
+        loadCards();
+    </script>
+</body>
 </html>
