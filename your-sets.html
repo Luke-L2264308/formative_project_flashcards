@@ -19,39 +19,39 @@
             const cardsList = document.getElementById("cardsList");
 
             try {
-                const [cardsResponse, setsResponse] = await Promise.all([
-                    fetch("http://localhost:3000/api/cards"),
-                    fetch("http://localhost:3000/api/sets")
-                ]);
+                const setsResponse = await fetch("http://localhost:3000/api/sets")
+                
 
-                if (!cardsResponse.ok || !setsResponse.ok) {
+                if (!setsResponse.ok) {
                     throw new Error("Request failed");
                 }
 
-                const [cards, sets] = await Promise.all([
-                    cardsResponse.json(),
-                    setsResponse.json()
-                ]);
+                const sets = await setsResponse.json();
+
+                
 
                 const setNamesById = new Map(
                     sets.map((set) => [set.id, set.title])
                 );
 
-                if (cards.length === 0) {
-                    status.textContent = "No cards found in the database.";
+                if (sets.length === 0) {
+                    status.textContent = "No sets found in the database.";
                     return;
                 }
 
-                status.textContent = "Cards loaded from MySQL:";
+                status.textContent = "Sets loaded from MySQL:";
 
-                cards.forEach((card) => {
-                    const item = document.createElement("li");
-                    const setName = setNamesById.get(card.set_id) || `Set ${card.set_id}`;
-                    item.textContent = `[${setName}] Q: ${card.question} | A: ${card.answer}`;
+                sets.forEach((set) => {
+                    const item = document.createElement("button");
+                    item.addEventListener("click", () => {
+                        window.location.href = `flashcard.html?setId=${set.id}`;
+                    });
+                    const setName = setNamesById.get(set.id) || `Set ${set.id}`;
+                    item.textContent = setName;
                     cardsList.appendChild(item);
                 });
             } catch (error) {
-                status.textContent = "Could not load cards. Is the API running on port 3000?";
+                status.textContent = "Could not load sets. Is the API running on port 3000?";
             }
         }
 
