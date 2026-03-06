@@ -22,3 +22,17 @@
     color: black;
     padding: 100px 150px;
 }
+
+/* --- Header / navigation styles --- */
+.site-header nav { display: flex; align-items: center; gap: 12px; padding: 8px 12px; background: #eee; }
+.brand { font-weight: 700; font-size: 1.1rem; }
+.menu-toggle { display: block; background: none; border: none; font-size: 1.4rem; cursor: pointer; }
+.nav-menu { display: none; flex-direction: column; gap: 8px; }
+.nav-menu.open { display: flex;  }
+
+/* Desktop / large screens: show horizontal nav and hide toggle */
+@media (min-width: 48em) {
+  .menu-toggle { display: none; }
+  .nav-menu { display: flex; flex-direction: row; gap: 12px;  }
+  .brand { margin-right: auto; }
+}
