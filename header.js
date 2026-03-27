@@ -1,9 +1,9 @@
-(function () {
-    let mount = document.getElementById("header");
 
-    if (!mount) {
-        return;
-    }
+let mount = document.getElementById("header");
+
+if (mount) {
+
+
 
     mount.innerHTML = [
         '<div class="site-header">',
@@ -50,4 +50,4 @@
         };
         window.addEventListener('resize', onResize);
     }
-})();
+};
