@@ -15,11 +15,14 @@
 
     <div class="container">
         <h1>Edit Sets</h1>
-        <p>This page is dedicated to creating and editing your flashcard sets.</p>
+        <input type="text" id="set-name" placeholder="Enter set name">
+
     </div>
+    <div class="buttons">
+        <button id="addflashcard" onclick="addFlashcard()">add a flashcard</button>
+        <button id="save-set" onclick="saveSet()"> save set</button>
 
-    <button id="addflashcard" onclick="addFlashcard()">add a flashcard</button>
-    <button id="save-set" onclick="saveSet()"> save set</button>
 
-
+    </div>
+    
     <div id="sets-container"></div>
