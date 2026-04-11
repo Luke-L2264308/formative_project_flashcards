@@ -55,7 +55,7 @@ async function flashcardNext(){
 }
 
 async function getFlashcard(set_id){
-    let flashcardContent = await fetch(`http://localhost:3000/api/cards?`);
+    let flashcardContent = await fetch(`/api/cards`);
     flashcardContent = await flashcardContent.json();
     flashcardContent = flashcardContent.filter(card => card.set_id == set_id);
 
