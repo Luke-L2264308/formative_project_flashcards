@@ -1,26 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accounts</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div id="header"></div>
     <script src="header.js"></script>
     <h1>Your Sets.</h1>
     <p id="status">Loading cards...</p>
-    <ul id="cardsList"></ul>
+    <ul id="cardsList" onclick="openSetMenuButton(event)"></ul>
 
     <script>
+
+        async function makeSetMenu(event) {
+            if (event.target.classList.contains("set-item")) {
+                const container = document.createElement("div");
+                container.classList.add("set-menu");
+                document.body.appendChild(container);
+                const viewButton = document.createElement("button");
+                viewButton.textContent = "View Set";
+                viewButton.onclick = () => {
+                    const setId = event.target.dataset.setId;
+                    window.location.href = `flashcard.html?setId=${setId}`;
+                };
+                const editButton = document.createElement("button");
+                editButton.textContent = "Edit Set";
+                editButton.onclick = () => {
+                    const setId = event.target.dataset.setId;
+                    window.location.href = `edit-sets.html?setId=${setId}`;
+                };
+                const deleteButton = document.createElement("button");
+                deleteButton.textContent = "Delete Set";
+                deleteButton.onclick = async () => {
+                    const setId = event.target.dataset.setId;
+                    try {
+                        const response = await fetch(`/api/sets/${setId}`, {
+                            method: "DELETE",
+                        });
+                        if (response.ok) {
+                            alert("Set deleted successfully.");
+                            superLoadCards();
+                        } else {
+                            alert("Failed to delete set.");
+                        }
+                    } catch (error) {
+                        alert("Error deleting set.");
+                    }
+                };
+                container.appendChild(viewButton);
+                container.appendChild(editButton);
+                container.appendChild(deleteButton);
+
+            }
+
+        }
+
+        async function openSetMenuButton(event) {
+            try {
+                document.querySelector(".set-menu").remove();
+                await makeSetMenu(event);
+            } catch (error) {
+                await makeSetMenu(event);
+
+
+
+
+            }
+
+        }
+
+        async function superLoadCards() {
+            try {
+                cardsList.replaceChildren()
+                await loadCards()
+
+            }
+            catch (error) {
+                await loadCards()
+            }
+
+
+        }
+
         async function loadCards() {
             const status = document.getElementById("status");
             const cardsList = document.getElementById("cardsList");
 
             try {
                 const setsResponse = await fetch("/api/sets")
-                
+
 
                 if (!setsResponse.ok) {
                     throw new Error("Request failed");
@@ -28,7 +101,7 @@
 
                 const sets = await setsResponse.json();
 
-                
+
 
                 const setNamesById = new Map(
                     sets.map((set) => [set.id, set.title])
@@ -44,9 +117,7 @@
                 sets.forEach((set) => {
                     const item = document.createElement("button");
                     item.classList.add("set-item");
-                    item.addEventListener("click", () => {
-                        window.location.href = `flashcard.html?setId=${set.id}`;
-                    });
+                    item.dataset.setId = set.id;
                     const setName = setNamesById.get(set.id) || `Set ${set.id}`;
                     item.textContent = setName;
                     cardsList.appendChild(item);
@@ -56,9 +127,10 @@
             }
         }
 
-        loadCards();
+        superLoadCards();
     </script>
     <a href="create-set.html" class="header-button">Create Set</a>
 
 </body>
+
 </html>
