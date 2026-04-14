@@ -43,6 +43,7 @@
 
                 sets.forEach((set) => {
                     const item = document.createElement("button");
+                    item.classList.add("set-item");
                     item.addEventListener("click", () => {
                         window.location.href = `flashcard.html?setId=${set.id}`;
                     });
