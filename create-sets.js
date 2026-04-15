@@ -1,17 +1,19 @@
-function addFlashcard() {
+function addFlashcard(question = "", answer = "") {
     const row = document.createElement("div");
     row.className = "flashcard-row";
-    
-    const question = document.createElement("input");
-    question.type = "text";
-    question.placeholder = "Question";
-    
-    const answer = document.createElement("input");
-    answer.type = "text";
-    answer.placeholder = "Answer";
-    
-    row.appendChild(question);
-    row.appendChild(answer);
+
+    const questionInput = document.createElement("input");
+    questionInput.type = "text";
+    questionInput.value = question;
+    questionInput.placeholder = "Question";
+
+    const answerInput = document.createElement("input");
+    answerInput.type = "text";
+    answerInput.value = answer;
+    answerInput.placeholder = "Answer";
+
+    row.appendChild(questionInput);
+    row.appendChild(answerInput);
     document.querySelector(".container").appendChild(row);
 
     
